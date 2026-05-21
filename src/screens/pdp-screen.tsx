@@ -55,7 +55,7 @@ export function PDPScreen({
         <span style={{ color: "var(--bone-dim)" }}>{p.brand.toUpperCase()}</span>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64 }}>
+      <div className="pdp-layout">
         <div>
           <div className="pdp-gallery">
             {p.imageUrl

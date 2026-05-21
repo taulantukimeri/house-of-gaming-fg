@@ -180,13 +180,7 @@ export function HomeScreen({
             Browse all →
           </Link>
         </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 16,
-          }}
-        >
+        <div className="cat-grid">
           {categories.map((c) => (
             <Link key={c.id} href={`/catalog/${c.id}`} className="cat-tile">
               <div className="cat-tile-meta">
@@ -264,13 +258,7 @@ export function HomeScreen({
             See all 18 →
           </Link>
         </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 16,
-          }}
-        >
+        <div className="featured-grid">
           {featuredProducts.map((p) => (
             <ProductCard
               key={p.id}
@@ -283,15 +271,7 @@ export function HomeScreen({
       </section>
 
       <section className="container" style={{ paddingTop: 96 }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 0,
-            border: "1px solid var(--border)",
-            borderRadius: 8,
-          }}
-        >
+        <div className="perks-grid">
           {[
             {
               eye: "— SHIPPING",
@@ -313,14 +293,8 @@ export function HomeScreen({
               title: "Trade-in program",
               sub: "Up to €120 credit on your old gear",
             },
-          ].map((t, i) => (
-            <div
-              key={t.eye}
-              style={{
-                padding: 32,
-                borderRight: i < 3 ? "1px solid var(--border)" : "none",
-              }}
-            >
+          ].map((t) => (
+            <div key={t.eye} className="perk-item">
               <div
                 style={{
                   fontFamily: "var(--font-mono)",

@@ -90,6 +90,12 @@ export function Icon({ name, size = 18 }: { name: string; size?: number }) {
           <path d="M5 12h14" />
         </svg>
       );
+    case "menu":
+      return (
+        <svg {...props}>
+          <path d="M3 6h18M3 12h18M3 18h18" />
+        </svg>
+      );
     default:
       return null;
   }

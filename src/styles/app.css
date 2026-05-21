@@ -313,6 +313,66 @@ body { overflow-x: hidden; }
 .sec-link:hover { color: var(--voltage); text-decoration: none; }
 
 /* ============================================================
+   Layout grid classes (defined here so media queries can override)
+   ============================================================ */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.perks-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.perk-item {
+  padding: 32px;
+  border-right: 1px solid var(--border);
+}
+.perk-item:last-child { border-right: none; }
+
+.pdp-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+
+.plp-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 48px;
+}
+
+.plp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.plp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 32px;
+  margin-bottom: 32px;
+  gap: 24px;
+}
+
+/* Hamburger hidden on desktop */
+.nav-hamburger { display: none; }
+.nav-mobile-menu { display: none; }
+
+/* ============================================================
    Search overlay
    ============================================================ */
 .search-overlay {
@@ -645,11 +705,131 @@ body { overflow-x: hidden; }
   color: var(--mute);
 }
 
+/* ============================================================
+   1920px — full HD desktop
+   ============================================================ */
+@media (min-width: 1920px) {
+  :root { --content-max: 1600px; }
+  .hero-title { font-size: 100px; }
+}
+
+/* ============================================================
+   max-width: 1024px — iPad landscape / small laptop
+   ============================================================ */
+@media (max-width: 1024px) {
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .pdp-layout { gap: 40px; }
+}
+
+/* ============================================================
+   max-width: 960px — tablet / nav collapse
+   ============================================================ */
 @media (max-width: 960px) {
-  .nav-inner { padding: 0 var(--page-gutter); }
+  .nav-inner { padding: 0 var(--page-gutter); gap: 16px; }
   .nav-cats { display: none; }
+  .nav-hamburger { display: grid; }
+  .nav-mobile-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    z-index: 49;
+    background: rgba(10, 11, 13, 0.97);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(16px);
+    padding: 8px 0 12px;
+  }
+  .nav-mobile-link {
+    padding: 14px var(--page-gutter);
+    color: var(--bone-dim);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(42, 46, 54, 0.4);
+    transition: color var(--t-micro);
+  }
+  .nav-mobile-link:last-child { border-bottom: none; }
+  .nav-mobile-link:hover,
+  .nav-mobile-link.active { color: var(--voltage); text-decoration: none; }
+
   .hero-inner { grid-template-columns: 1fr; padding: 64px var(--page-gutter); }
   .hero-title { font-size: 56px; }
-  .footer-top { grid-template-columns: 1fr 1fr; }
-  .strip { grid-template-columns: 1fr; padding: 32px; }
+  .strip { grid-template-columns: 1fr; padding: 40px 32px; }
+  .strip-art { display: none; }
+  .footer-inner { padding: 0 var(--page-gutter); }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+/* ============================================================
+   max-width: 768px — iPad portrait / large phones
+   ============================================================ */
+@media (max-width: 768px) {
+  .hero-inner { padding: 48px var(--page-gutter); }
+  .hero-title { font-size: 44px; }
+  .hero-body { font-size: 15px; }
+
+  .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .perks-grid { grid-template-columns: repeat(2, 1fr); }
+  .perk-item:nth-child(2) { border-right: none; }
+  .perk-item:nth-child(1),
+  .perk-item:nth-child(2) { border-bottom: 1px solid var(--border); }
+  .perk-item { padding: 24px; }
+
+  .plp-header { flex-direction: column; align-items: flex-start; }
+  .plp-layout { grid-template-columns: 1fr; }
+  .filter-side { display: none; }
+  .plp-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  .pdp-layout { grid-template-columns: 1fr; gap: 32px; }
+
+  .drawer { width: 100%; left: 0; }
+
+  .strip { padding: 32px 24px; }
+  .strip-title { font-size: 36px; }
+  .sec-title { font-size: 26px; }
+
+  .footer-top { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; gap: 8px; }
+}
+
+/* ============================================================
+   max-width: 480px — phones (414px, 390px, 375px)
+   ============================================================ */
+@media (max-width: 480px) {
+  :root { --page-gutter: 20px; }
+
+  .hero-inner { padding: 40px var(--page-gutter) 48px; }
+  .hero-title { font-size: 36px; }
+  .hero-cta { flex-direction: column; }
+  .hero-cta .btn { width: 100%; justify-content: center; }
+
+  .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .cat-tile { padding: 18px; }
+  .cat-tile-name { font-size: 20px; }
+  .cat-tile-art svg { width: 140px; height: 140px; }
+
+  .featured-grid { grid-template-columns: 1fr; }
+
+  .perks-grid { grid-template-columns: 1fr; }
+  .perk-item { border-right: none; border-bottom: 1px solid var(--border); padding: 20px; }
+  .perk-item:nth-child(2) { border-bottom: 1px solid var(--border); }
+  .perk-item:last-child { border-bottom: none; }
+
+  .plp-grid { grid-template-columns: 1fr; }
+  .plp-header { gap: 16px; }
+
+  .sec-title { font-size: 22px; }
+
+  .strip { padding: 28px var(--page-gutter); min-height: auto; }
+  .strip-title { font-size: 28px; }
+
+  .search-overlay { padding-top: 12px; }
+  .search-panel { margin: 0 12px; }
+
+  .footer-inner { padding: 0 var(--page-gutter); }
+  .footer-top { grid-template-columns: 1fr; gap: 24px; }
+  .footer { padding: 48px 0 24px; margin-top: 64px; }
 }

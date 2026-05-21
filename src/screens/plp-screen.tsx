@@ -48,16 +48,7 @@ export function PLPScreen({
         <span style={{ color: "var(--bone-dim)" }}>{category.name.toUpperCase()}</span>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "end",
-          borderBottom: "1px solid var(--border)",
-          paddingBottom: 32,
-          marginBottom: 32,
-        }}
-      >
+      <div className="plp-header">
         <div>
           <EyebrowBar>▲ FG CURATED · {category.count} ITEMS</EyebrowBar>
           <h1 className="t-display-lg" style={{ marginTop: 16 }}>
@@ -92,7 +83,7 @@ export function PLPScreen({
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 48 }}>
+      <div className="plp-layout">
         <aside className="filter-side">
           <div className="filter-group" style={{ borderTop: "1px solid var(--border)" }}>
             <h4>Brand</h4>
@@ -137,7 +128,7 @@ export function PLPScreen({
               <span style={{ color: "var(--voltage)" }}>▲</span> FG verified · sorted by curation
             </span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+          <div className="plp-grid">
             {display.map((p) => (
               <ProductCard
                 key={p.id}
