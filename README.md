@@ -59,6 +59,10 @@ Source kit: `House of Gaming FG — Design System` (ui_kits/webapp).
 - **Next.js 15** storefront
 - **Prisma 5** + **SQLite** for products (swap to PostgreSQL in production by changing `DATABASE_URL` and `provider` in `prisma/schema.prisma`)
 
+## Deploy on Hostinger
+
+See **[DEPLOY-HOSTINGER.md](./DEPLOY-HOSTINGER.md)** for Git import, build commands, and environment variables.
+
 ## Next steps (real commerce)
 
 - Stripe Checkout or Payment Element
