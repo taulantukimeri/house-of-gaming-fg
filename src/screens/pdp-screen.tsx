@@ -58,21 +58,26 @@ export function PDPScreen({
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64 }}>
         <div>
           <div className="pdp-gallery">
-            <ProductArt kind={p.art} />
+            {p.imageUrl
+              ? <img src={p.imageUrl} alt={p.fullName} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+              : <ProductArt kind={p.art} />
+            }
           </div>
-          <div className="pdp-thumbs">
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className={`pdp-thumb ${i === thumb ? "active" : ""}`}
-                onClick={() => setThumb(i)}
-                role="button"
-                tabIndex={0}
-              >
-                <ProductArt kind={p.art} />
-              </div>
-            ))}
-          </div>
+          {!p.imageUrl && (
+            <div className="pdp-thumbs">
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className={`pdp-thumb ${i === thumb ? "active" : ""}`}
+                  onClick={() => setThumb(i)}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <ProductArt kind={p.art} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div>
@@ -170,7 +175,7 @@ export function PDPScreen({
             or €{Math.round(p.price / 4)} × 4 with Klarna · 0% APR
           </div>
 
-          <StockPill stock={p.stock} label={p.stockLabel} />
+          <StockPill stock={p.stock} label={p.quantity > 0 && p.quantity <= 3 ? `Only ${p.quantity} left!` : p.stockLabel} />
 
           <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 20 }}>
             {Object.entries(p.swatches || {}).map(([group, opts]) => (

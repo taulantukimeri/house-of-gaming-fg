@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@/components/icon";
 import { useCart } from "@/context/cart-context";
+import { useSearch } from "@/context/search-context";
 
 const cats = [
   { id: "chairs", label: "Chairs" },
@@ -16,6 +17,7 @@ const cats = [
 export function Nav() {
   const pathname = usePathname();
   const { cartCount, openCart } = useCart();
+  const { openSearch } = useSearch();
 
   return (
     <nav className="nav">
@@ -44,12 +46,10 @@ export function Nav() {
           </Link>
         </div>
         <div className="nav-right">
-          <button type="button" className="nav-icon" title="Search">
+          <button type="button" className="nav-icon" title="Search" onClick={openSearch}>
             <Icon name="search" size={18} />
           </button>
-          <Link href="/account" className="nav-icon" title="Account">
-            <Icon name="user" size={18} />
-          </Link>
+
           <button
             type="button"
             className="nav-icon"

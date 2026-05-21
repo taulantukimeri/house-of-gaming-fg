@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Product, ProductArt, ProductBadge, StockStatus } from "@/lib/types";
 
 const ARTS: ProductArt[] = [
@@ -35,6 +35,7 @@ function emptyProduct(): Partial<Product> {
     msrp: null,
     stock: "ok",
     stockLabel: "IN STOCK",
+    quantity: 0,
     verified: false,
     badge: null,
     art: "mouse",
@@ -73,6 +74,10 @@ export function ProductForm({
   const [stockLabel, setStockLabel] = useState(
     initial?.stockLabel ?? "IN STOCK"
   );
+  const [quantity, setQuantity] = useState(String(initial?.quantity ?? "0"));
+  const [imageUrl, setImageUrl] = useState(initial?.imageUrl ?? "");
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [verified, setVerified] = useState(initial?.verified ?? false);
   const [badgeType, setBadgeType] = useState(initial?.badge?.type ?? "");
   const [badgeLabel, setBadgeLabel] = useState(initial?.badge?.label ?? "");
@@ -102,6 +107,26 @@ export function ProductForm({
       .filter(([k, v]) => k && v);
   }
 
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+      if (res.ok) {
+        const data = await res.json();
+        setImageUrl(data.url);
+      } else {
+        setError("Image upload failed");
+      }
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
@@ -129,6 +154,8 @@ export function ProductForm({
       msrp: msrp ? parseInt(msrp, 10) : null,
       stock,
       stockLabel,
+      quantity: parseInt(quantity, 10) || 0,
+      imageUrl: imageUrl || null,
       verified,
       badge,
       art,
@@ -281,7 +308,7 @@ export function ProductForm({
         </label>
       </div>
 
-      <div className="admin-form-row">
+      <div className="admin-form-row" style={{ gridTemplateColumns: "1fr 1fr 1fr" }}>
         <label>
           <span>Stock status</span>
           <select
@@ -302,6 +329,16 @@ export function ProductForm({
             className="input"
             value={stockLabel}
             onChange={(e) => setStockLabel(e.target.value)}
+          />
+        </label>
+        <label>
+          <span>Quantity</span>
+          <input
+            className="input"
+            type="number"
+            min={0}
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
           />
         </label>
       </div>
@@ -355,6 +392,44 @@ export function ProductForm({
             disabled={!badgeType}
           />
         </label>
+      </div>
+
+      <div className="admin-image-section">
+        <span className="admin-image-label">Product image (optional)</span>
+        {imageUrl && (
+          <div className="admin-image-preview">
+            <img src={imageUrl} alt="Product preview" />
+            <button
+              type="button"
+              className="admin-image-remove"
+              onClick={() => setImageUrl("")}
+            >
+              Remove
+            </button>
+          </div>
+        )}
+        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <button
+            type="button"
+            className="btn btn--secondary btn--sm"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+          >
+            {uploading ? "Uploading…" : imageUrl ? "Replace image" : "Upload image"}
+          </button>
+          {imageUrl && (
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--mute)" }}>
+              Image uploaded
+            </span>
+          )}
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          onChange={handleImageUpload}
+          style={{ display: "none" }}
+        />
       </div>
 
       <label>

@@ -32,6 +32,8 @@ model Product {
   msrp        Int?
   stock       String
   stockLabel  String
+  quantity    Int      @default(0)
+  imageUrl    String?
   verified    Boolean  @default(false)
   badge       String?
   art         String

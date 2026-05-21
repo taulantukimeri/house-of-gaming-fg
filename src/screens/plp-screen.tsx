@@ -147,11 +147,7 @@ export function PLPScreen({
               />
             ))}
           </div>
-          <div style={{ textAlign: "center", marginTop: 48 }}>
-            <button type="button" className="btn btn--ghost btn--lg">
-              Load more · {category.count - display.length} remaining
-            </button>
-          </div>
+
         </div>
       </div>
     </div>

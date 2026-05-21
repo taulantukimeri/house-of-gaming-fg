@@ -34,7 +34,10 @@ export function ProductCard({ product: p, onNavigate, onAdd }: ProductCardProps)
         </span>
       </div>
       <div className="pcard-img">
-        <ProductArt kind={p.art} />
+        {p.imageUrl
+          ? <img src={p.imageUrl} alt={p.fullName} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+          : <ProductArt kind={p.art} />
+        }
       </div>
       <div className="pcard-body">
         <div className="pcard-title">{p.fullName}</div>
@@ -44,7 +47,7 @@ export function ProductCard({ product: p, onNavigate, onAdd }: ProductCardProps)
         <span className="pcard-price">
           {p.msrp && <s>€{p.msrp}</s>}€{p.price}
         </span>
-        <StockPill stock={p.stock} label={p.stockLabel} />
+        <StockPill stock={p.stock} label={p.quantity > 0 && p.quantity <= 3 ? `Only ${p.quantity} left!` : p.stockLabel} />
       </div>
       <div style={{ padding: "0 16px 16px" }}>
         <button

@@ -312,6 +312,106 @@ body { overflow-x: hidden; }
 }
 .sec-link:hover { color: var(--voltage); text-decoration: none; }
 
+/* ============================================================
+   Search overlay
+   ============================================================ */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(10, 11, 13, 0.8);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 80px;
+}
+
+.search-panel {
+  width: 100%;
+  max-width: 560px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  margin: 0 var(--page-gutter);
+}
+
+.search-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  color: var(--mute);
+  border-bottom: 1px solid var(--border);
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--bone);
+  font: inherit;
+  font-size: 16px;
+}
+.search-input::placeholder { color: var(--mute); }
+
+.search-esc {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xs);
+  color: var(--mute);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 3px 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.search-results {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.search-result {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--t-micro) var(--ease);
+}
+.search-result:hover { background: var(--surface-2); }
+
+.search-result-name {
+  color: var(--bone);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.search-result-price {
+  color: var(--bone-dim);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.search-status {
+  color: var(--mute);
+  font-size: 13px;
+  padding: 16px 20px;
+  margin: 0;
+}
+
 .cat-tile {
   position: relative;
   aspect-ratio: 4/5;

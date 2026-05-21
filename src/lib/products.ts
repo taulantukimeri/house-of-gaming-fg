@@ -26,6 +26,8 @@ export function mapProduct(row: DbProduct): Product {
     msrp: row.msrp,
     stock: row.stock as StockStatus,
     stockLabel: row.stockLabel,
+    quantity: row.quantity,
+    imageUrl: row.imageUrl ?? null,
     verified: row.verified,
     badge: parseBadge(row.badge),
     art: row.art as ProductArt,
@@ -81,6 +83,8 @@ export type ProductInput = {
   msrp: number | null;
   stock: string;
   stockLabel: string;
+  quantity: number;
+  imageUrl?: string | null;
   verified: boolean;
   badge: ProductBadge | null;
   art: string;
@@ -103,6 +107,8 @@ export function toDbFields(input: ProductInput) {
     msrp: input.msrp,
     stock: input.stock,
     stockLabel: input.stockLabel,
+    quantity: input.quantity,
+    imageUrl: input.imageUrl ?? null,
     verified: input.verified,
     badge: input.badge ? JSON.stringify(input.badge) : null,
     art: input.art,

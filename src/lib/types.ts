@@ -27,6 +27,8 @@ export interface Product {
   msrp: number | null;
   stock: StockStatus;
   stockLabel: string;
+  quantity: number;
+  imageUrl?: string | null;
   verified: boolean;
   badge?: ProductBadge | null;
   art: ProductArt;
