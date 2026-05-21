@@ -18,7 +18,7 @@ export default async function HomePage() {
         art: c.art as import("@/lib/types").ProductArt,
       }))}
       featuredProducts={products.slice(0, 4)}
-      heroProduct={products.find((p) => p.id === "lg-gp2") ?? products[0]}
+      heroProduct={products.find((p) => p.id === "lg-gp2") ?? products[0] ?? null}
     />
   );
 }

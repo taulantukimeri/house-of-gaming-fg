@@ -15,7 +15,7 @@ export function HomeScreen({
 }: {
   categories: Category[];
   featuredProducts: Product[];
-  heroProduct: Product;
+  heroProduct: Product | null;
 }) {
   const router = useRouter();
   const { addToCart } = useCart();
@@ -64,102 +64,107 @@ export function HomeScreen({
               </button>
             </div>
           </div>
-          <div style={{ position: "relative" }}>
-            <div
-              style={{
-                border: "1px solid var(--border-strong)",
-                borderRadius: 12,
-                padding: 32,
-                background: "rgba(20,22,26,0.6)",
-                backdropFilter: "blur(8px)",
-              }}
-            >
+          {heroProduct && (
+            <div style={{ position: "relative" }}>
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: 24,
-                }}
-              >
-                <span className="fg-stamp">FG verified · this month</span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 11,
-                    color: "var(--mute)",
-                    letterSpacing: "0.1em",
-                  }}
-                >
-                  0029 / HG-FG
-                </span>
-              </div>
-              <div
-                style={{
-                  aspectRatio: "4/3",
-                  background: "var(--surface-2)",
-                  borderRadius: 4,
-                  display: "grid",
-                  placeItems: "center",
-                  color: "var(--bone-dim)",
-                  marginBottom: 20,
-                  position: "relative",
-                  overflow: "hidden",
+                  border: "1px solid var(--border-strong)",
+                  borderRadius: 12,
+                  padding: 32,
+                  background: "rgba(20,22,26,0.6)",
+                  backdropFilter: "blur(8px)",
                 }}
               >
                 <div
                   style={{
-                    position: "absolute",
-                    inset: 0,
-                    background:
-                      "radial-gradient(ellipse at 65% 35%, rgba(198,255,61,0.08), transparent 70%)",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 24,
                   }}
-                />
-                <div style={{ position: "relative", width: "70%", height: "70%" }}>
-                  <ProductArt kind={heroProduct.art} />
+                >
+                  <span className="fg-stamp">FG verified · this month</span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: 11,
+                      color: "var(--mute)",
+                      letterSpacing: "0.1em",
+                    }}
+                  >
+                    0029 / HG-FG
+                  </span>
+                </div>
+                <div
+                  style={{
+                    aspectRatio: "4/3",
+                    background: "var(--surface-2)",
+                    borderRadius: 4,
+                    display: "grid",
+                    placeItems: "center",
+                    color: "var(--bone-dim)",
+                    marginBottom: 20,
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "radial-gradient(ellipse at 65% 35%, rgba(198,255,61,0.08), transparent 70%)",
+                    }}
+                  />
+                  <div style={{ position: "relative", width: "70%", height: "70%" }}>
+                    {heroProduct.imageUrl
+                      ? <img src={heroProduct.imageUrl} alt={heroProduct.fullName} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                      : <ProductArt kind={heroProduct.art} />
+                    }
+                  </div>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: 22,
+                    fontWeight: 600,
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {heroProduct.fullName}
+                </div>
+                <div style={{ color: "var(--mute)", fontSize: 13, marginTop: 6 }}>
+                  {heroProduct.blurb}
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: 20,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: 20,
+                      color: "var(--bone)",
+                      fontWeight: 500,
+                    }}
+                  >
+                    €{heroProduct.price}
+                  </span>
+                  <button
+                    type="button"
+                    className="btn btn--primary btn--sm"
+                    onClick={() => router.push(`/product/${heroProduct.id}`)}
+                  >
+                    View details →
+                  </button>
                 </div>
               </div>
-              <div
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: 22,
-                  fontWeight: 600,
-                  lineHeight: 1.2,
-                }}
-              >
-                {heroProduct.fullName}
-              </div>
-              <div style={{ color: "var(--mute)", fontSize: 13, marginTop: 6 }}>
-                {heroProduct.blurb}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginTop: 20,
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 20,
-                    color: "var(--bone)",
-                    fontWeight: 500,
-                  }}
-                >
-                  €{heroProduct.price}
-                </span>
-                <button
-                  type="button"
-                  className="btn btn--primary btn--sm"
-                  onClick={() => router.push(`/product/${heroProduct.id}`)}
-                >
-                  View details →
-                </button>
-              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
