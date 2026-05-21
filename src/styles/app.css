@@ -299,7 +299,7 @@ body { overflow-x: hidden; }
   background: var(--voltage);
 }
 
-.sec-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 32px; }
+.sec-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; }
 .sec-title { font-family: var(--font-display); font-weight: 600; font-size: 32px; letter-spacing: -0.015em; }
 .sec-link {
   color: var(--bone-dim);
