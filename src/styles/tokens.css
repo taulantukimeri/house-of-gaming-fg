@@ -1,0 +1,302 @@
+/* ============================================================
+   House of Gaming FG — Design Tokens
+   colors_and_type.css
+   ============================================================ */
+
+/* --- Fonts (Google Fonts CDN — SUBSTITUTE if licensed faces become available) --- */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* ----- Color: neutrals ----- */
+  --ink:            #0A0B0D;
+  --ink-soft:       #0F1115;
+  --surface-1:      #14161A;
+  --surface-2:      #1E2128;
+  --surface-3:      #272B33;
+  --border:         #2A2E36;
+  --border-strong:  #3A3F4A;
+
+  --bone:           #F4F2EC;
+  --bone-dim:       #B8BAC0;
+  --mute:           #8B8F99;
+  --mute-deep:      #5E626B;
+
+  /* ----- Color: accents ----- */
+  --voltage:        #C6FF3D;     /* primary action, FG stamp, live */
+  --voltage-deep:   #9BD420;     /* voltage press */
+  --voltage-soft:   #2A3414;     /* voltage tinted bg */
+
+  --ignition:       #FF5C1A;     /* sale, limited, heat */
+  --ignition-deep:  #D04612;
+
+  --plasma:         #FF2D78;     /* rare pro-tier accent */
+  --signal:         #3DD9FF;     /* info, body links */
+
+  /* ----- Color: semantic ----- */
+  --ok:             #5CE08A;
+  --warn:           #FFC23D;
+  --err:            #FF4D4D;
+
+  /* ----- Typography: families ----- */
+  --font-display:   'Space Grotesk', system-ui, sans-serif;
+  --font-body:      'DM Sans', system-ui, sans-serif;
+  --font-mono:      'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* ----- Typography: scale (font-size / line-height / letter-spacing / weight) ----- */
+  --fs-display-xl: 72px;   --lh-display-xl: 1.0;   --ls-display-xl: -0.03em;
+  --fs-display-lg: 56px;   --lh-display-lg: 1.05;  --ls-display-lg: -0.025em;
+  --fs-display-md: 40px;   --lh-display-md: 1.1;   --ls-display-md: -0.02em;
+  --fs-h1:         32px;   --lh-h1:         1.15;  --ls-h1:         -0.015em;
+  --fs-h2:         24px;   --lh-h2:         1.2;   --ls-h2:         -0.01em;
+  --fs-h3:         18px;   --lh-h3:         1.3;   --ls-h3:          0;
+  --fs-body-lg:    18px;   --lh-body-lg:    1.5;
+  --fs-body:       16px;   --lh-body:       1.55;
+  --fs-body-sm:    14px;   --lh-body-sm:    1.5;
+  --fs-caption:    12px;   --lh-caption:    1.4;
+  --fs-eyebrow:    11px;   --lh-eyebrow:    1.0;   --ls-eyebrow:    0.12em;
+
+  /* ----- Spacing (4 px base) ----- */
+  --s-0:   0;
+  --s-1:   4px;
+  --s-2:   8px;
+  --s-3:   12px;
+  --s-4:   16px;
+  --s-5:   24px;
+  --s-6:   32px;
+  --s-7:   48px;
+  --s-8:   64px;
+  --s-9:   96px;
+  --s-10:  128px;
+
+  /* ----- Radii ----- */
+  --r-xs:   2px;
+  --r-sm:   4px;
+  --r-md:   8px;
+  --r-lg:   12px;
+  --r-xl:   16px;
+  --r-pill: 999px;
+
+  /* ----- Shadows / elevation ----- */
+  --shadow-sm:  0 1px 0 rgba(255,255,255,0.04) inset, 0 1px 2px rgba(0,0,0,0.5);
+  --shadow-md:  0 2px 8px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
+  --shadow-lg:  0 12px 32px rgba(0,0,0,0.6), 0 0 0 1px var(--border-strong);
+  --glow-volt:  0 0 0 1px var(--voltage), 0 0 24px -4px rgba(198,255,61,0.5);
+  --glow-ignit: 0 0 0 1px var(--ignition), 0 0 24px -4px rgba(255,92,26,0.5);
+
+  /* ----- Motion ----- */
+  --ease:      cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --t-micro:   120ms;
+  --t-base:    200ms;
+  --t-page:    320ms;
+
+  /* ----- Layout ----- */
+  --page-gutter:    32px;
+  --page-gutter-lg: 64px;
+  --content-max:    1440px;
+  --read-max:       720px;
+  --nav-h:          64px;
+}
+
+/* ============================================================
+   Base reset (light)
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg, video { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; }
+a { color: var(--signal); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+/* ============================================================
+   Semantic type classes
+   ============================================================ */
+.t-display-xl,
+.t-display-lg,
+.t-display-md,
+.t-h1, .t-h2, .t-h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--bone);
+}
+.t-display-xl { font-size: var(--fs-display-xl); line-height: var(--lh-display-xl); letter-spacing: var(--ls-display-xl); font-weight: 700; }
+.t-display-lg { font-size: var(--fs-display-lg); line-height: var(--lh-display-lg); letter-spacing: var(--ls-display-lg); font-weight: 700; }
+.t-display-md { font-size: var(--fs-display-md); line-height: var(--lh-display-md); letter-spacing: var(--ls-display-md); }
+.t-h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--ls-h1); }
+.t-h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); letter-spacing: var(--ls-h2); }
+.t-h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); }
+
+.t-body-lg { font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); }
+.t-body    { font-size: var(--fs-body);    line-height: var(--lh-body); }
+.t-body-sm { font-size: var(--fs-body-sm); line-height: var(--lh-body-sm); color: var(--bone-dim); }
+.t-caption { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--mute); }
+
+.t-mono    { font-family: var(--font-mono); }
+.t-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  line-height: var(--lh-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--voltage);
+  font-weight: 500;
+}
+
+.t-mute  { color: var(--mute); }
+.t-dim   { color: var(--bone-dim); }
+.t-bone  { color: var(--bone); }
+.t-volt  { color: var(--voltage); }
+.t-ignit { color: var(--ignition); }
+
+/* ============================================================
+   Buttons (primary, ghost, secondary)
+   ============================================================ */
+.btn {
+  --pad-x: 18px; --pad-y: 12px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  padding: var(--pad-y) var(--pad-x);
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background var(--t-micro) var(--ease),
+    box-shadow var(--t-micro) var(--ease),
+    transform   80ms var(--ease),
+    border-color var(--t-micro) var(--ease);
+  user-select: none;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--voltage);
+  outline-offset: 2px;
+}
+.btn:active { transform: scale(0.98); }
+
+.btn--primary {
+  background: var(--voltage);
+  color: var(--ink);
+}
+.btn--primary:hover { box-shadow: var(--glow-volt); background: var(--voltage); }
+.btn--primary:active { background: var(--voltage-deep); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--bone);
+  border-color: var(--border-strong);
+}
+.btn--ghost:hover { border-color: var(--bone); background: rgba(255,255,255,0.03); }
+
+.btn--secondary {
+  background: var(--surface-2);
+  color: var(--bone);
+  border-color: var(--border);
+}
+.btn--secondary:hover { background: var(--surface-3); border-color: var(--border-strong); }
+
+.btn--ignit {
+  background: var(--ignition);
+  color: var(--ink);
+}
+.btn--ignit:hover { box-shadow: var(--glow-ignit); }
+
+.btn--sm { --pad-x: 12px; --pad-y: 8px; font-size: 13px; }
+.btn--lg { --pad-x: 24px; --pad-y: 16px; font-size: 15px; }
+.btn--block { width: 100%; }
+
+/* ============================================================
+   Inputs
+   ============================================================ */
+.input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--bone);
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 12px;
+  transition: border-color var(--t-micro) var(--ease), background var(--t-micro) var(--ease);
+}
+.input::placeholder { color: var(--mute); }
+.input:hover { border-color: var(--border-strong); }
+.input:focus {
+  outline: none;
+  border-color: var(--voltage);
+  background: var(--surface-1);
+}
+
+/* ============================================================
+   Cards
+   ============================================================ */
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  transition: border-color var(--t-base) var(--ease), transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease);
+}
+.card--hover:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================================
+   FG stamp
+   ============================================================ */
+.fg-stamp {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--voltage);
+  font-weight: 500;
+}
+.fg-stamp::before {
+  content: '▲';
+  display: inline-block;
+  font-size: 9px;
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+.container {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 var(--page-gutter);
+}
+@media (min-width: 960px) {
+  .container { padding: 0 var(--page-gutter-lg); }
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  border: none;
+  margin: var(--s-5) 0;
+}
+.divider--marked {
+  position: relative;
+}
+.divider--marked::before {
+  content: '';
+  position: absolute;
+  left: 0; top: -1.5px;
+  width: 4px; height: 4px;
+  background: var(--voltage);
+}

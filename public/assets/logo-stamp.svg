@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 80" fill="none">
+  <rect x="0.5" y="0.5" width="159" height="79" rx="1" stroke="#C6FF3D" stroke-dasharray="2 3"></rect>
+  <g font-family="JetBrains Mono, monospace" fill="#C6FF3D">
+    <text x="80" y="22" font-size="9" font-weight="600" letter-spacing="0.22em" text-anchor="middle">▲ FG VERIFIED</text>
+    <text x="80" y="44" font-size="22" font-weight="700" letter-spacing="0.04em" text-anchor="middle" fill="#F4F2EC">FORGED</text>
+    <text x="80" y="62" font-size="9" font-weight="500" letter-spacing="0.20em" text-anchor="middle">SN · 0029 / HG-FG</text>
+  </g>
+  <rect x="12" y="68" width="20" height="2" fill="#C6FF3D"></rect>
+  <rect x="128" y="68" width="20" height="2" fill="#C6FF3D"></rect>
+</svg>
