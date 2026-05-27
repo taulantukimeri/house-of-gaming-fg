@@ -7,45 +7,7 @@ import { ProductArt } from "@/components/product-art";
 import { ProductCard } from "@/components/product-card";
 import { useCart } from "@/context/cart-context";
 import type { Category, Product } from "@/lib/types";
-
-const BANNERS = [
-  {
-    id: 1,
-    tag: "Summer Gaming Deals",
-    title: "Up to 50% OFF\nGaming Gear",
-    sub: "Limited time offer on top-rated mice, keyboards and chairs",
-    cta: "Shop Deals",
-    href: "/catalog/mice",
-    cat: "mice",
-    art: "mouse" as const,
-    bg: "linear-gradient(135deg, #1A1A2E 0%, #16213E 100%)",
-    accent: "#F26522",
-  },
-  {
-    id: 2,
-    tag: "New Arrivals",
-    title: "Pro Gaming\nKeyboards",
-    sub: "Hall-effect switches, wireless freedom, per-key RGB — all in stock",
-    cta: "Shop Keyboards",
-    href: "/catalog/keyboards",
-    cat: "keyboards",
-    art: "keyboard" as const,
-    bg: "linear-gradient(135deg, #0F3460 0%, #16213E 100%)",
-    accent: "#F26522",
-  },
-  {
-    id: 3,
-    tag: "Ergonomic Collection",
-    title: "Gaming Chairs\nFrom €109",
-    sub: "From budget-friendly to pro-grade — chairs built for long sessions",
-    cta: "Shop Chairs",
-    href: "/catalog/chairs",
-    cat: "chairs",
-    art: "chair" as const,
-    bg: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)",
-    accent: "#F26522",
-  },
-];
+import type { BannerSlide } from "@/lib/banners";
 
 const TRUST_BADGES = [
   { icon: "🔒", title: "Safe Shopping", sub: "Encrypted & secure checkout" },
@@ -76,17 +38,26 @@ export function HomeScreen({
   categories,
   featuredProducts,
   heroProduct,
-  bannerImages = {},
+  bannerSlides = [],
 }: {
   categories: Category[];
   featuredProducts: Product[];
   heroProduct: Product | null;
-  bannerImages?: Record<string, string | null>;
+  bannerSlides?: BannerSlide[];
 }) {
   const router = useRouter();
   const { addToCart } = useCart();
   const [slide, setSlide] = useState(0);
-  const current = BANNERS[slide];
+
+  // Fallback slide if DB is empty
+  const slides = bannerSlides.length > 0 ? bannerSlides : [{
+    id: 0, position: 0, active: true,
+    tag: "House of Gaming", title: "Your Gaming HQ", sub: "Browse our full catalogue",
+    cta: "Shop now", href: "/catalog/mice", imageUrl: null,
+    bg: "linear-gradient(135deg, #1A1A2E 0%, #16213E 100%)", accent: "#F26522",
+  } as BannerSlide];
+
+  const current = slides[Math.min(slide, slides.length - 1)];
 
   const saleProducts = featuredProducts.filter((p) => p.msrp);
   const recommended = featuredProducts.slice(0, 4);
@@ -101,67 +72,66 @@ export function HomeScreen({
         <div className="banner-slide" style={{ background: current.bg }}>
           <div className="banner-inner">
             <div className="banner-content">
-              <div className="banner-tag" style={{ background: current.accent }}>
-                {current.tag}
-              </div>
+              {current.tag && (
+                <div className="banner-tag" style={{ background: current.accent }}>
+                  {current.tag}
+                </div>
+              )}
               <h1 className="banner-title">
-                {current.title.split("\n").map((line, i) => (
-                  <span key={i}>{line}{i < current.title.split("\n").length - 1 && <br />}</span>
+                {current.title.split("\n").map((line, i, arr) => (
+                  <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
                 ))}
               </h1>
-              <p className="banner-sub">{current.sub}</p>
+              {current.sub && <p className="banner-sub">{current.sub}</p>}
               <Link href={current.href} className="btn btn--primary btn--lg" style={{ display: "inline-flex", textDecoration: "none" }}>
                 {current.cta}
               </Link>
             </div>
             <div className="banner-art-wrap">
               <div className="banner-art-inner">
-                {bannerImages[current.cat] ? (
+                {current.imageUrl ? (
                   <img
-                    src={bannerImages[current.cat]!}
+                    src={current.imageUrl}
                     alt={current.tag}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "contain",
-                      objectPosition: "center",
-                    }}
+                    style={{ width: "100%", height: "100%", objectFit: "contain", objectPosition: "center" }}
                   />
                 ) : (
-                  <ProductArt kind={current.art} />
+                  <ProductArt kind="mouse" />
                 )}
               </div>
             </div>
           </div>
 
-          {/* Arrows */}
-          <button
-            className="banner-arrow banner-arrow--prev"
-            onClick={() => setSlide((slide - 1 + BANNERS.length) % BANNERS.length)}
-            aria-label="Previous"
-          >
-            ‹
-          </button>
-          <button
-            className="banner-arrow banner-arrow--next"
-            onClick={() => setSlide((slide + 1) % BANNERS.length)}
-            aria-label="Next"
-          >
-            ›
-          </button>
+          {/* Arrows — only shown when there are multiple slides */}
+          {slides.length > 1 && (
+            <>
+              <button
+                className="banner-arrow banner-arrow--prev"
+                onClick={() => setSlide((slide - 1 + slides.length) % slides.length)}
+                aria-label="Previous"
+              >‹</button>
+              <button
+                className="banner-arrow banner-arrow--next"
+                onClick={() => setSlide((slide + 1) % slides.length)}
+                aria-label="Next"
+              >›</button>
+            </>
+          )}
         </div>
 
         {/* Dots */}
-        <div className="banner-dots">
-          {BANNERS.map((_, i) => (
-            <button
-              key={i}
-              className={"banner-dot " + (i === slide ? "active" : "")}
-              onClick={() => setSlide(i)}
-              aria-label={`Slide ${i + 1}`}
-            />
-          ))}
-        </div>
+        {slides.length > 1 && (
+          <div className="banner-dots">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                className={"banner-dot " + (i === slide ? "active" : "")}
+                onClick={() => setSlide(i)}
+                aria-label={`Slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ══════════════════════════════════════════════

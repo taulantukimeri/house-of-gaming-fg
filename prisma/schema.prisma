@@ -8,10 +8,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Generic key-value settings store (used for banner images, etc.)
+// Generic key-value settings store
 model Setting {
   key   String @id
   value String @default("")
+}
+
+// Fully editable homepage banner slides
+model BannerSlide {
+  id       Int     @id @default(autoincrement())
+  position Int     @default(0)
+  active   Boolean @default(true)
+  tag      String  @default("")
+  title    String  @default("")
+  sub      String  @default("")
+  cta      String  @default("Shop Now")
+  href     String  @default("/catalog")
+  imageUrl String?
+  bg       String  @default("linear-gradient(135deg, #1A1A2E 0%, #16213E 100%)")
+  accent   String  @default("#F26522")
 }
 
 model Category {

@@ -1,15 +1,15 @@
 import { HomeScreen } from "@/screens/home-screen";
 import { getAllProducts, getCategories } from "@/lib/products";
-import { getBannerImages } from "@/lib/settings";
+import { getBannerSlides } from "@/lib/banners";
 import type { ProductArt } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [categories, products, bannerImages] = await Promise.all([
+  const [categories, products, bannerSlides] = await Promise.all([
     getCategories(),
     getAllProducts(),
-    getBannerImages(),
+    getBannerSlides(),
   ]);
 
   return (
@@ -20,9 +20,9 @@ export default async function HomePage() {
         count: c.count,
         art: c.art as ProductArt,
       }))}
-      featuredProducts={products.slice(0, 4)}
-      heroProduct={products.find((p) => p.id === "lg-gp2") ?? products[0] ?? null}
-      bannerImages={bannerImages}
+      featuredProducts={products.slice(0, 8)}
+      heroProduct={products[0] ?? null}
+      bannerSlides={bannerSlides}
     />
   );
 }

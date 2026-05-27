@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { getBannerImages } from "@/lib/settings";
+import { getAllBannerSlides, createBannerSlide, type BannerSlideInput } from "@/lib/banners";
 
 export async function GET() {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const images = await getBannerImages();
-  return NextResponse.json(images);
+  return NextResponse.json(await getAllBannerSlides());
+}
+
+export async function POST(request: Request) {
+  if (!(await isAdminAuthenticated())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const body = (await request.json()) as BannerSlideInput;
+  const slide = await createBannerSlide(body);
+  return NextResponse.json(slide, { status: 201 });
 }
