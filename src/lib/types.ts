@@ -63,3 +63,18 @@ export interface Toast {
   title: string;
   sub?: string;
 }
+
+// Mirror of the Prisma BannerSlide model — safe to import in client components
+export interface BannerSlide {
+  id:       number;
+  position: number;
+  active:   boolean;
+  tag:      string;
+  title:    string;
+  sub:      string;
+  cta:      string;
+  href:     string;
+  imageUrl: string | null;
+  bg:       string;
+  accent:   string;
+}

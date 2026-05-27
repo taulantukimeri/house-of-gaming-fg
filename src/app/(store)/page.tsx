@@ -9,7 +9,7 @@ export default async function HomePage() {
   const [categories, products, bannerSlides] = await Promise.all([
     getCategories(),
     getAllProducts(),
-    getBannerSlides(),
+    getBannerSlides().catch(() => []),
   ]);
 
   return (

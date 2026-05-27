@@ -6,8 +6,7 @@ import { useState } from "react";
 import { ProductArt } from "@/components/product-art";
 import { ProductCard } from "@/components/product-card";
 import { useCart } from "@/context/cart-context";
-import type { Category, Product } from "@/lib/types";
-import type { BannerSlide } from "@/lib/banners";
+import type { BannerSlide, Category, Product } from "@/lib/types";
 
 const TRUST_BADGES = [
   { icon: "🔒", title: "Safe Shopping", sub: "Encrypted & secure checkout" },
