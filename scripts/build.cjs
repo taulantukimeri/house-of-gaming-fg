@@ -10,7 +10,8 @@
  *  1. DATABASE_URL already set in the environment (Hostinger hPanel env var)
  *  2. Fallback to the well-known Hostinger production path
  */
-const { execSync } = require('child_process');
+const { execSync }  = require('child_process');
+const { rmSync, existsSync } = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
@@ -24,15 +25,29 @@ if (!process.env.DATABASE_URL || process.env.DATABASE_URL.startsWith('file:./'))
   console.log('[build] DATABASE_URL:', process.env.DATABASE_URL);
 }
 
+// ── Clean stale build output to free disk space ──────────────────────────────
+// Removes .next/cache (webpack cache can grow to hundreds of MB) and the
+// previous standalone output so old engine binaries don't accumulate.
+const toClean = [
+  path.join(root, '.next', 'cache'),
+  path.join(root, '.next', 'standalone'),
+];
+for (const dir of toClean) {
+  if (existsSync(dir)) {
+    console.log('[build] Cleaning', dir);
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
 // ── Shared exec options (inherit env so DATABASE_URL propagates) ─────────────
 const opts = { stdio: 'inherit', cwd: root, env: process.env };
 
 const steps = [
-  ['prisma generate',             'npx prisma generate'],
-  ['prisma migrate deploy',       'npx prisma migrate deploy'],
-  ['ensure-seed',                 'node scripts/ensure-seed.mjs'],
-  ['next build',                  'npx next build'],
-  ['post-build',                  'node scripts/post-build.cjs'],
+  ['prisma generate',       'npx prisma generate'],
+  ['prisma migrate deploy', 'npx prisma migrate deploy'],
+  ['ensure-seed',           'node scripts/ensure-seed.mjs'],
+  ['next build',            'npx next build'],
+  ['post-build',            'node scripts/post-build.cjs'],
 ];
 
 for (const [label, cmd] of steps) {

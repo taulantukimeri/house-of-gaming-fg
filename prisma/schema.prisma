@@ -1,6 +1,11 @@
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl", "linux-musl-openssl-3.0.x", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
+  // "native"              = your local Windows dev machine
+  // "debian-openssl-1.1.x" = Hostinger Ubuntu 20.04
+  // "debian-openssl-3.0.x" = Hostinger Ubuntu 22.04+
+  // Removed: linux-musl (Alpine/Docker), rhel (Red Hat) — not used on Hostinger
+  // Saves ~140 MB of disk space (4 × ~35 MB engine binaries removed)
+  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x"]
 }
 
 datasource db {
