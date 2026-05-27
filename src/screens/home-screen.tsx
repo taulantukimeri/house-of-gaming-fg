@@ -16,6 +16,7 @@ const BANNERS = [
     sub: "Limited time offer on top-rated mice, keyboards and chairs",
     cta: "Shop Deals",
     href: "/catalog/mice",
+    cat: "mice",
     art: "mouse" as const,
     bg: "linear-gradient(135deg, #1A1A2E 0%, #16213E 100%)",
     accent: "#F26522",
@@ -27,6 +28,7 @@ const BANNERS = [
     sub: "Hall-effect switches, wireless freedom, per-key RGB — all in stock",
     cta: "Shop Keyboards",
     href: "/catalog/keyboards",
+    cat: "keyboards",
     art: "keyboard" as const,
     bg: "linear-gradient(135deg, #0F3460 0%, #16213E 100%)",
     accent: "#F26522",
@@ -38,6 +40,7 @@ const BANNERS = [
     sub: "From budget-friendly to pro-grade — chairs built for long sessions",
     cta: "Shop Chairs",
     href: "/catalog/chairs",
+    cat: "chairs",
     art: "chair" as const,
     bg: "linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 100%)",
     accent: "#F26522",
@@ -73,10 +76,12 @@ export function HomeScreen({
   categories,
   featuredProducts,
   heroProduct,
+  bannerImages = {},
 }: {
   categories: Category[];
   featuredProducts: Product[];
   heroProduct: Product | null;
+  bannerImages?: Record<string, string | null>;
 }) {
   const router = useRouter();
   const { addToCart } = useCart();
@@ -111,7 +116,20 @@ export function HomeScreen({
             </div>
             <div className="banner-art-wrap">
               <div className="banner-art-inner">
-                <ProductArt kind={current.art} />
+                {bannerImages[current.cat] ? (
+                  <img
+                    src={bannerImages[current.cat]!}
+                    alt={current.tag}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain",
+                      objectPosition: "center",
+                    }}
+                  />
+                ) : (
+                  <ProductArt kind={current.art} />
+                )}
               </div>
             </div>
           </div>
