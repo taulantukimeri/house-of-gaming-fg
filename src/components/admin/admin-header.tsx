@@ -15,6 +15,12 @@ export function AdminHeader({
         <h1 className="admin-title">{title}</h1>
       </div>
       <div className="admin-nav">
+        <Link href="/admin" className="btn btn--ghost btn--sm">
+          Products
+        </Link>
+        <Link href="/admin/banners" className="btn btn--ghost btn--sm">
+          Banners
+        </Link>
         {children}
         <Link href="/" className="btn btn--ghost btn--sm">
           View store
