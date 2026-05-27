@@ -1,48 +1,46 @@
 /* ============================================================
-   House of Gaming FG — Design Tokens
-   colors_and_type.css
+   House of Gaming FG — Design Tokens (Light theme)
    ============================================================ */
 
-/* --- Fonts (Google Fonts CDN — SUBSTITUTE if licensed faces become available) --- */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* ----- Color: neutrals ----- */
-  --ink:            #0A0B0D;
-  --ink-soft:       #0F1115;
-  --surface-1:      #14161A;
-  --surface-2:      #1E2128;
-  --surface-3:      #272B33;
-  --border:         #2A2E36;
-  --border-strong:  #3A3F4A;
+  /* ----- Color: neutrals (light mode) ----- */
+  --ink:            #FFFFFF;
+  --ink-soft:       #F9FAFB;
+  --surface-1:      #FFFFFF;
+  --surface-2:      #F3F4F6;
+  --surface-3:      #E8EAED;
+  --border:         #E2E4E8;
+  --border-strong:  #C8CDD6;
 
-  --bone:           #F4F2EC;
-  --bone-dim:       #B8BAC0;
-  --mute:           #8B8F99;
-  --mute-deep:      #5E626B;
+  --bone:           #111827;
+  --bone-dim:       #374151;
+  --mute:           #6B7280;
+  --mute-deep:      #9CA3AF;
 
-  /* ----- Color: accents ----- */
-  --voltage:        #C6FF3D;     /* primary action, FG stamp, live */
-  --voltage-deep:   #9BD420;     /* voltage press */
-  --voltage-soft:   #2A3414;     /* voltage tinted bg */
+  /* ----- Color: accents (gjirafa50-inspired orange) ----- */
+  --voltage:        #F26522;
+  --voltage-deep:   #D4490E;
+  --voltage-soft:   #FEF3EE;
 
-  --ignition:       #FF5C1A;     /* sale, limited, heat */
-  --ignition-deep:  #D04612;
+  --ignition:       #E02424;
+  --ignition-deep:  #C81E1E;
 
-  --plasma:         #FF2D78;     /* rare pro-tier accent */
-  --signal:         #3DD9FF;     /* info, body links */
+  --plasma:         #7E3AF2;
+  --signal:         #F26522;
 
   /* ----- Color: semantic ----- */
-  --ok:             #5CE08A;
-  --warn:           #FFC23D;
-  --err:            #FF4D4D;
+  --ok:             #057A55;
+  --warn:           #D97706;
+  --err:            #E02424;
 
   /* ----- Typography: families ----- */
   --font-display:   'Space Grotesk', system-ui, sans-serif;
   --font-body:      'DM Sans', system-ui, sans-serif;
   --font-mono:      'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-  /* ----- Typography: scale (font-size / line-height / letter-spacing / weight) ----- */
+  /* ----- Typography: scale ----- */
   --fs-display-xl: 72px;   --lh-display-xl: 1.0;   --ls-display-xl: -0.03em;
   --fs-display-lg: 56px;   --lh-display-lg: 1.05;  --ls-display-lg: -0.025em;
   --fs-display-md: 40px;   --lh-display-md: 1.1;   --ls-display-md: -0.02em;
@@ -76,12 +74,12 @@
   --r-xl:   16px;
   --r-pill: 999px;
 
-  /* ----- Shadows / elevation ----- */
-  --shadow-sm:  0 1px 0 rgba(255,255,255,0.04) inset, 0 1px 2px rgba(0,0,0,0.5);
-  --shadow-md:  0 2px 8px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
-  --shadow-lg:  0 12px 32px rgba(0,0,0,0.6), 0 0 0 1px var(--border-strong);
-  --glow-volt:  0 0 0 1px var(--voltage), 0 0 24px -4px rgba(198,255,61,0.5);
-  --glow-ignit: 0 0 0 1px var(--ignition), 0 0 24px -4px rgba(255,92,26,0.5);
+  /* ----- Shadows / elevation (light mode) ----- */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg:  0 20px 40px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06);
+  --glow-volt:  0 0 0 3px rgba(242,101,34,0.25);
+  --glow-ignit: 0 0 0 3px rgba(224,36,36,0.25);
 
   /* ----- Motion ----- */
   --ease:      cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -95,11 +93,12 @@
   --page-gutter-lg: 64px;
   --content-max:    1440px;
   --read-max:       720px;
-  --nav-h:          64px;
+  --nav-h:          72px;
+  --catbar-h:       44px;
 }
 
 /* ============================================================
-   Base reset (light)
+   Base reset
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
@@ -137,7 +136,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 
 .t-body-lg { font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); }
 .t-body    { font-size: var(--fs-body);    line-height: var(--lh-body); }
-.t-body-sm { font-size: var(--fs-body-sm); line-height: var(--lh-body-sm); color: var(--bone-dim); }
+.t-body-sm { font-size: var(--fs-body-sm); line-height: var(--lh-body-sm); color: var(--mute); }
 .t-caption { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--mute); }
 
 .t-mono    { font-family: var(--font-mono); }
@@ -158,7 +157,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 .t-ignit { color: var(--ignition); }
 
 /* ============================================================
-   Buttons (primary, ghost, secondary)
+   Buttons
    ============================================================ */
 .btn {
   --pad-x: 18px; --pad-y: 12px;
@@ -187,9 +186,9 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 
 .btn--primary {
   background: var(--voltage);
-  color: var(--ink);
+  color: #FFFFFF;
 }
-.btn--primary:hover { box-shadow: var(--glow-volt); background: var(--voltage); }
+.btn--primary:hover { background: var(--voltage-deep); box-shadow: var(--glow-volt); }
 .btn--primary:active { background: var(--voltage-deep); }
 
 .btn--ghost {
@@ -197,7 +196,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   color: var(--bone);
   border-color: var(--border-strong);
 }
-.btn--ghost:hover { border-color: var(--bone); background: rgba(255,255,255,0.03); }
+.btn--ghost:hover { border-color: var(--bone); background: var(--surface-2); }
 
 .btn--secondary {
   background: var(--surface-2);
@@ -208,9 +207,9 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 
 .btn--ignit {
   background: var(--ignition);
-  color: var(--ink);
+  color: #FFFFFF;
 }
-.btn--ignit:hover { box-shadow: var(--glow-ignit); }
+.btn--ignit:hover { background: var(--ignition-deep); box-shadow: var(--glow-ignit); }
 
 .btn--sm { --pad-x: 12px; --pad-y: 8px; font-size: 13px; }
 .btn--lg { --pad-x: 24px; --pad-y: 16px; font-size: 15px; }
@@ -221,21 +220,21 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
    ============================================================ */
 .input {
   width: 100%;
-  background: var(--surface-2);
+  background: var(--surface-1);
   border: 1px solid var(--border);
   border-radius: var(--r-sm);
   color: var(--bone);
   font: inherit;
   font-size: 14px;
   padding: 10px 12px;
-  transition: border-color var(--t-micro) var(--ease), background var(--t-micro) var(--ease);
+  transition: border-color var(--t-micro) var(--ease), box-shadow var(--t-micro) var(--ease);
 }
-.input::placeholder { color: var(--mute); }
+.input::placeholder { color: var(--mute-deep); }
 .input:hover { border-color: var(--border-strong); }
 .input:focus {
   outline: none;
   border-color: var(--voltage);
-  background: var(--surface-1);
+  box-shadow: 0 0 0 3px rgba(242,101,34,0.15);
 }
 
 /* ============================================================

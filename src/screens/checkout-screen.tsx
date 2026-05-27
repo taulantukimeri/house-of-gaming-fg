@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ProductArt } from "@/components/product-art";
-import { EyebrowBar } from "@/components/ui-primitives";
 import { useCart } from "@/context/cart-context";
 
 export function CheckoutScreen() {
@@ -19,33 +18,19 @@ export function CheckoutScreen() {
 
   return (
     <div className="page-enter container" style={{ paddingTop: 32, paddingBottom: 64 }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 32,
-        }}
-      >
-        <div>
-          <EyebrowBar>▲ CHECKOUT · ORDER 0030</EyebrowBar>
-          <h1 className="t-display-lg" style={{ marginTop: 12 }}>
-            Checkout
-          </h1>
-        </div>
-        <div
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            letterSpacing: "0.12em",
-            color: "var(--mute)",
-            textTransform: "uppercase",
-            textAlign: "right",
-          }}
-        >
-          SECURE · 256-BIT TLS
-          <br />
-          <span style={{ color: "var(--ok)" }}>● ENCRYPTED</span>
+      <div className="breadcrumb" style={{ marginBottom: 24 }}>
+        <span className="breadcrumb-link" style={{ cursor: "pointer" }} onClick={() => router.push("/")}>Home</span>
+        <span className="breadcrumb-sep">›</span>
+        <span className="breadcrumb-link" style={{ cursor: "pointer" }} onClick={() => router.back()}>Cart</span>
+        <span className="breadcrumb-sep">›</span>
+        <span className="breadcrumb-current">Checkout</span>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32 }}>
+        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 28, fontWeight: 700, color: "var(--bone)" }}>
+          Checkout
+        </h1>
+        <div style={{ fontSize: 12, color: "var(--mute)", textAlign: "right" }}>
+          🔒 Secure · 256-bit TLS
         </div>
       </div>
 
@@ -55,7 +40,7 @@ export function CheckoutScreen() {
             <div className="step done">
               <div className="step-num">01 — CART</div>
               <div className="step-title">
-                {items.length} items · €{subtotal}
+                {items.length} items · {subtotal.toFixed(2)} €
               </div>
             </div>
             <div className={`step ${step === "address" ? "active" : step === "payment" ? "done" : ""}`}>
@@ -175,7 +160,7 @@ export function CheckoutScreen() {
                   style={{ flex: 1 }}
                   onClick={() => router.push("/order/confirmed")}
                 >
-                  Place order — €{total}
+                  Place order — {total.toFixed(2)} €
                 </button>
               </div>
             </>
@@ -193,21 +178,11 @@ export function CheckoutScreen() {
           >
             <div
               style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-                color: "var(--voltage)",
-                letterSpacing: "0.16em",
-                marginBottom: 4,
-              }}
-            >
-              ▲ ORDER 0030
-            </div>
-            <div
-              style={{
                 fontFamily: "var(--font-display)",
                 fontSize: 20,
                 fontWeight: 600,
                 marginBottom: 20,
+                color: "var(--bone)",
               }}
             >
               Your order
@@ -264,7 +239,7 @@ export function CheckoutScreen() {
                     color: "var(--bone)",
                   }}
                 >
-                  €{it.product.price * it.qty}
+                  {(it.product.price * it.qty).toFixed(2)} €
                 </div>
               </div>
             ))}
@@ -297,7 +272,7 @@ export function CheckoutScreen() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                €{total}
+                {total.toFixed(2)} €
               </span>
             </div>
           </div>

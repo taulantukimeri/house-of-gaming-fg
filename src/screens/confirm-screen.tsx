@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Icon } from "@/components/icon";
-import { EyebrowBar } from "@/components/ui-primitives";
 
 export function ConfirmScreen() {
   return (
@@ -26,9 +25,11 @@ export function ConfirmScreen() {
         >
           <Icon name="check" size={32} />
         </div>
-        <EyebrowBar>▲ ORDER 0030 · CONFIRMED</EyebrowBar>
-        <h1 className="t-display-lg" style={{ marginTop: 16 }}>
-          Thanks. We&apos;ve got it.
+        <div style={{ fontSize: 13, color: "var(--mute)", marginBottom: 12, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+          Order confirmed
+        </div>
+        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 700, color: "var(--bone)", marginTop: 8 }}>
+          Thank you for your order!
         </h1>
         <p
           style={{
@@ -41,8 +42,7 @@ export function ConfirmScreen() {
             marginRight: "auto",
           }}
         >
-          Your order ships from Berlin on Monday. Tracking lands in your inbox by
-          18:00 CET. The FG warranty extension is already on file.
+          Your order ships from Berlin on Monday. You will receive a tracking link in your inbox by 18:00 CET.
         </p>
         <div
           style={{

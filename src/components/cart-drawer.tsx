@@ -40,12 +40,11 @@ export function CartDrawer() {
           }}
         >
           <div>
-            <div className="t-eyebrow">
-              ▲ YOUR CART · {items.length}{" "}
-              {items.length === 1 ? "ITEM" : "ITEMS"}
-            </div>
-            <div className="t-h2" style={{ marginTop: 4 }}>
+            <div style={{ fontFamily: "var(--font-display)", fontSize: 20, fontWeight: 700, color: "var(--bone)" }}>
               Cart
+            </div>
+            <div style={{ fontSize: 13, color: "var(--mute)", marginTop: 2 }}>
+              {items.length} {items.length === 1 ? "item" : "items"}
             </div>
           </div>
           <button type="button" className="nav-icon" onClick={closeCart}>
@@ -160,7 +159,7 @@ export function CartDrawer() {
                   fontWeight: 500,
                 }}
               >
-                €{it.product.price * it.qty}
+                {(it.product.price * it.qty).toFixed(2)} €
               </div>
             </div>
           ))}
@@ -184,7 +183,7 @@ export function CartDrawer() {
               }}
             >
               <span>Subtotal</span>
-              <span style={{ fontFamily: "var(--font-mono)" }}>€{subtotal}</span>
+              <span style={{ fontFamily: "var(--font-mono)" }}>{subtotal.toFixed(2)} €</span>
             </div>
             <div
               style={{
@@ -202,7 +201,7 @@ export function CartDrawer() {
                 )}
               </span>
               <span style={{ fontFamily: "var(--font-mono)" }}>
-                {shipping === 0 ? "—" : `€${shipping}`}
+                {shipping === 0 ? "—" : `${shipping.toFixed(2)} €`}
               </span>
             </div>
             <div
@@ -232,7 +231,7 @@ export function CartDrawer() {
                   fontWeight: 600,
                 }}
               >
-                €{total}
+                {total.toFixed(2)} €
               </span>
             </div>
             <button
@@ -241,20 +240,10 @@ export function CartDrawer() {
               style={{ marginTop: 20 }}
               onClick={goCheckout}
             >
-              Checkout — €{total}
+              Checkout — {total.toFixed(2)} €
             </button>
-            <div
-              style={{
-                textAlign: "center",
-                marginTop: 12,
-                fontFamily: "var(--font-mono)",
-                fontSize: 10,
-                letterSpacing: "0.14em",
-                color: "var(--mute)",
-                textTransform: "uppercase",
-              }}
-            >
-              ▲ FG WARRANTY EXTENSION INCLUDED
+            <div style={{ textAlign: "center", marginTop: 12, fontSize: 12, color: "var(--mute)" }}>
+              🔒 Secure checkout · Free returns
             </div>
           </div>
         )}

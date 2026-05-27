@@ -4,132 +4,172 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ProductCard } from "@/components/product-card";
-import { EyebrowBar } from "@/components/ui-primitives";
 import { useCart } from "@/context/cart-context";
 import type { Category, Product } from "@/lib/types";
 
-const CAT_COPY: Record<string, string> = {
-  mice: "Wireless, lightweight, and pro-grade. From 54 g sniping shells to 8 K Hz tracking. Tested 200 h before they get the FG stamp.",
-  keyboards: "Mechanical, hot-swap, analog hall-effect. From 60% to full-size, gasket to tray-mount. We list the switch specs, not adjectives.",
-  chairs: "Engineered for eight-hour sessions. Pixelated lumbar, NeoHybrid leatherette, magnetic head pillows.",
-  desks: "Sit/stand frames, magnetic cable trays, full-surface mats. Built for the desk you actually use.",
-  headsets: "Hi-Res certified drivers, active noise cancellation, dual-battery base stations. No latency, no cables, no compromise.",
-  accessories: "Switches, keycaps, controllers, cable management, lighting. The 5% that makes a 50% difference.",
+const CAT_DESC: Record<string, string> = {
+  mice: "From ultra-lightweight wireless to wired precision — find the gaming mouse that matches your grip style and playstyle.",
+  keyboards: "Mechanical, Hall-effect, wireless. Full-size to 60%. Every switch type in stock.",
+  chairs: "Engineered for long sessions. From entry-level to pro-grade ergonomic seating.",
+  desks: "Sit-stand frames, cable management and full-surface mats for your perfect setup.",
+  headsets: "Hi-Res certified, ANC, wireless. Crystal-clear audio for competitive and immersive play.",
+  accessories: "Mousepads, keycaps, charging mats, stream decks and more.",
 };
 
-export function PLPScreen({
-  category,
-  products,
-}: {
-  category: Category;
-  products: Product[];
-}) {
+const BRANDS: Record<string, string[]> = {
+  mice: ["Logitech G", "Razer", "SteelSeries", "ASUS ROG", "Corsair", "HyperX", "ZOWIE"],
+  keyboards: ["Logitech G", "Razer", "SteelSeries", "Corsair", "HyperX", "Keychron", "ASUS ROG"],
+  chairs: ["Secretlab", "ASUS ROG", "Corsair", "DXRacer", "AndaSeat"],
+  desks: ["Secretlab", "Flexispot", "Uplift", "ASUS ROG"],
+  headsets: ["Logitech G", "Razer", "SteelSeries", "Corsair", "HyperX", "ASUS ROG"],
+  accessories: ["Logitech G", "Razer", "SteelSeries", "Corsair", "HyperX", "Keychron"],
+};
+
+const PRICE_RANGES = [
+  { label: "Under €50", min: 0, max: 50 },
+  { label: "€50 – €100", min: 50, max: 100 },
+  { label: "€100 – €200", min: 100, max: 200 },
+  { label: "€200 – €500", min: 200, max: 500 },
+  { label: "Over €500", min: 500, max: Infinity },
+];
+
+const PAGE_SIZE = 12;
+
+export function PLPScreen({ category, products }: { category: Category; products: Product[] }) {
   const router = useRouter();
   const { addToCart } = useCart();
-  const [sort, setSort] = useState("curated");
-  const display = products;
+  const [sort, setSort] = useState("default");
+  const [page, setPage] = useState(1);
+  const [activeBrands, setActiveBrands] = useState<Set<string>>(new Set());
+  const [activePriceRange, setActivePriceRange] = useState<number | null>(null);
+  const [inStockOnly, setInStockOnly] = useState(true);
+
+  const brands = BRANDS[category.id] ?? [];
+
+  const toggleBrand = (b: string) => {
+    setActiveBrands((prev) => {
+      const next = new Set(prev);
+      next.has(b) ? next.delete(b) : next.add(b);
+      return next;
+    });
+    setPage(1);
+  };
+
+  let filtered = products;
+  if (inStockOnly) filtered = filtered.filter((p) => p.stock !== "err");
+  if (activeBrands.size > 0) filtered = filtered.filter((p) => activeBrands.has(p.brand));
+  if (activePriceRange !== null) {
+    const r = PRICE_RANGES[activePriceRange];
+    filtered = filtered.filter((p) => p.price >= r.min && p.price < r.max);
+  }
+
+  const sorted = [...filtered].sort((a, b) => {
+    if (sort === "price-asc") return a.price - b.price;
+    if (sort === "price-desc") return b.price - a.price;
+    if (sort === "newest") return b.id.localeCompare(a.id);
+    if (sort === "discount") {
+      const da = a.msrp ? (1 - a.price / a.msrp) : 0;
+      const db = b.msrp ? (1 - b.price / b.msrp) : 0;
+      return db - da;
+    }
+    return 0;
+  });
+
+  const visibleProducts = sorted.slice(0, page * PAGE_SIZE);
+  const hasMore = visibleProducts.length < sorted.length;
 
   return (
-    <div className="page-enter container" style={{ paddingTop: 48, paddingBottom: 64 }}>
-      <div
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 11,
-          letterSpacing: "0.12em",
-          color: "var(--mute)",
-          textTransform: "uppercase",
-          marginBottom: 24,
-        }}
-      >
-        <Link href="/" style={{ color: "inherit", textDecoration: "none" }}>
-          HOME
-        </Link>
-        <span style={{ margin: "0 8px" }}>/</span>
-        <span style={{ color: "var(--bone-dim)" }}>{category.name.toUpperCase()}</span>
+    <div className="page-enter container" style={{ paddingTop: 32, paddingBottom: 64 }}>
+
+      {/* Breadcrumb */}
+      <div className="breadcrumb">
+        <Link href="/" className="breadcrumb-link">Home</Link>
+        <span className="breadcrumb-sep">›</span>
+        <span className="breadcrumb-current">{category.name}</span>
       </div>
 
+      {/* Page heading */}
       <div className="plp-header">
         <div>
-          <EyebrowBar>▲ FG CURATED · {category.count} ITEMS</EyebrowBar>
-          <h1 className="t-display-lg" style={{ marginTop: 16 }}>
-            {category.name}
-          </h1>
-          <p style={{ color: "var(--bone-dim)", marginTop: 16, maxWidth: 560, lineHeight: 1.55 }}>
-            {CAT_COPY[category.id] || CAT_COPY.mice}
-          </p>
+          <h1 className="plp-title">{category.name}</h1>
+          <p className="plp-desc">{CAT_DESC[category.id] || ""}</p>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              color: "var(--mute)",
-              letterSpacing: "0.14em",
-            }}
-          >
-            SORT
-          </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span className="plp-count">{sorted.length} products</span>
           <select
             value={sort}
-            onChange={(e) => setSort(e.target.value)}
+            onChange={(e) => { setSort(e.target.value); setPage(1); }}
             className="input"
-            style={{ width: 200, padding: "8px 12px" }}
+            style={{ width: 220 }}
           >
-            <option value="curated">FG curated</option>
-            <option value="new">Newest</option>
-            <option value="price-asc">Price · low to high</option>
-            <option value="price-desc">Price · high to low</option>
+            <option value="default">Sort: Relevance</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="newest">Newest</option>
+            <option value="discount">Highest Discount %</option>
           </select>
         </div>
       </div>
 
       <div className="plp-layout">
+        {/* Sidebar filters */}
         <aside className="filter-side">
           <div className="filter-group" style={{ borderTop: "1px solid var(--border)" }}>
-            <h4>Brand</h4>
-            {["Logitech G", "ASUS ROG", "Razer", "SteelSeries", "Wooting", "Secretlab", "Herman Miller"].map(
-              (b, i) => (
-                <label key={b} className="filter-checkbox">
-                  <input type="checkbox" defaultChecked={i < 2} readOnly />
-                  <span>{b}</span>
-                  <span className="count">{[8, 4, 6, 3, 1, 5, 2][i]}</span>
-                </label>
-              )
-            )}
-          </div>
-          <div className="filter-group">
-            <h4>FG status</h4>
+            <h4>Availability</h4>
             <label className="filter-checkbox">
-              <input type="checkbox" defaultChecked readOnly />
-              <span style={{ color: "var(--voltage)" }}>▲ FG Verified only</span>
-              <span className="count">12</span>
+              <input type="checkbox" checked={inStockOnly} onChange={(e) => { setInStockOnly(e.target.checked); setPage(1); }} />
+              <span>In Stock only</span>
+            </label>
+            <label className="filter-checkbox">
+              <input type="checkbox" defaultChecked={false} />
+              <span>Special Offers</span>
             </label>
           </div>
+
+          <div className="filter-group">
+            <h4>Brand</h4>
+            {brands.map((b) => (
+              <label key={b} className="filter-checkbox">
+                <input
+                  type="checkbox"
+                  checked={activeBrands.has(b)}
+                  onChange={() => toggleBrand(b)}
+                />
+                <span>{b}</span>
+              </label>
+            ))}
+          </div>
+
+          <div className="filter-group">
+            <h4>Price Range</h4>
+            {PRICE_RANGES.map((r, i) => (
+              <label key={r.label} className="filter-checkbox">
+                <input
+                  type="checkbox"
+                  checked={activePriceRange === i}
+                  onChange={() => { setActivePriceRange(activePriceRange === i ? null : i); setPage(1); }}
+                />
+                <span>{r.label}</span>
+              </label>
+            ))}
+          </div>
+
+          {activeBrands.size > 0 || activePriceRange !== null ? (
+            <button
+              type="button"
+              className="btn btn--ghost"
+              style={{ width: "100%", marginTop: 8, fontSize: 13 }}
+              onClick={() => { setActiveBrands(new Set()); setActivePriceRange(null); setPage(1); }}
+            >
+              Clear filters
+            </button>
+          ) : null}
         </aside>
 
+        {/* Product grid */}
         <div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: 24,
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              letterSpacing: "0.12em",
-              color: "var(--mute)",
-              textTransform: "uppercase",
-            }}
-          >
-            <span>
-              SHOWING <span style={{ color: "var(--bone)" }}>{display.length}</span> OF{" "}
-              {category.count}
-            </span>
-            <span>
-              <span style={{ color: "var(--voltage)" }}>▲</span> FG verified · sorted by curation
-            </span>
-          </div>
           <div className="plp-grid">
-            {display.map((p) => (
+            {visibleProducts.map((p) => (
               <ProductCard
                 key={p.id}
                 product={p}
@@ -139,6 +179,26 @@ export function PLPScreen({
             ))}
           </div>
 
+          {sorted.length === 0 && (
+            <div style={{ padding: "64px 0", textAlign: "center", color: "var(--mute)" }}>
+              No products found in this category.
+            </div>
+          )}
+
+          {sorted.length > 0 && (
+            <div className="load-more-wrap">
+              {hasMore ? (
+                <button type="button" className="load-more-btn" onClick={() => setPage((p) => p + 1)}>
+                  Show more products
+                </button>
+              ) : (
+                <span className="load-more-end">End of results</span>
+              )}
+              <span style={{ fontSize: 12, color: "var(--mute)" }}>
+                Showing {visibleProducts.length} of {sorted.length} products
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>

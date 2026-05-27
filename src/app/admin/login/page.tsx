@@ -28,7 +28,11 @@ function LoginForm() {
       return;
     }
 
-    const from = searchParams.get("from") || "/admin";
+    // Validate `from` to prevent open-redirect attacks:
+    // only allow same-origin relative paths (must start with "/" and not contain "://")
+    const rawFrom = searchParams.get("from") ?? "";
+    const from =
+      rawFrom.startsWith("/") && !rawFrom.includes("://") ? rawFrom : "/admin";
     router.push(from);
     router.refresh();
   }
@@ -74,9 +78,7 @@ function LoginForm() {
           {loading ? "Signing in…" : "Sign in"}
         </button>
       </form>
-      <p className="t-caption" style={{ marginTop: 16 }}>
-        Default password is in <code>.env</code> as ADMIN_PASSWORD.
-      </p>
+      {/* Do not expose env-var names or credential hints in production */}
     </div>
   );
 }

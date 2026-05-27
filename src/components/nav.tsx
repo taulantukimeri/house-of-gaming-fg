@@ -8,11 +8,12 @@ import { useCart } from "@/context/cart-context";
 import { useSearch } from "@/context/search-context";
 
 const cats = [
+  { id: "mice", label: "Mice" },
+  { id: "keyboards", label: "Keyboards" },
   { id: "chairs", label: "Chairs" },
   { id: "desks", label: "Desks" },
-  { id: "keyboards", label: "Keyboards" },
-  { id: "mice", label: "Mice" },
   { id: "headsets", label: "Headsets" },
+  { id: "accessories", label: "Accessories" },
 ];
 
 export function Nav() {
@@ -22,76 +23,96 @@ export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="nav">
-      <div className="nav-inner">
-        <Link href="/" className="nav-logo" onClick={() => setMobileOpen(false)}>
-          <img src="/assets/logo-mark.svg" alt="" width={28} height={28} />
-          <div>
-            <div className="nav-logo-text">HOUSE OF GAMING</div>
-            <div className="nav-logo-fg">FG · FORGED GEAR</div>
+    <>
+      {/* Top promo bar */}
+      <div className="nav-promo-bar">
+        Free EU shipping over €150 &nbsp;·&nbsp; 30-day returns &nbsp;·&nbsp; Secure payments &nbsp;·&nbsp; Authentic products with warranty
+      </div>
+
+      {/* Main nav */}
+      <nav className="nav">
+        <div className="nav-inner">
+
+          {/* Logo */}
+          <Link href="/" className="nav-logo" onClick={() => setMobileOpen(false)}>
+            <img src="/assets/logo-mark.svg" alt="House of Gaming" width={34} height={34} />
+            <div className="nav-logo-name">House of Gaming</div>
+          </Link>
+
+          {/* Search bar */}
+          <button type="button" className="nav-search-wrap" onClick={openSearch} aria-label="Search products">
+            <span className="nav-search-icon">
+              <Icon name="search" size={17} />
+            </span>
+            <span className="nav-search-placeholder">Search products, brands and categories…</span>
+            <span className="nav-search-btn">
+              <Icon name="search" size={16} />
+              <span>Search</span>
+            </span>
+          </button>
+
+          {/* Right icons */}
+          <div className="nav-right">
+            <button type="button" className="nav-icon" title="Wishlist">
+              <Icon name="heart" size={18} />
+            </button>
+            <Link href="/account" className="nav-icon" title="My Account">
+              <Icon name="user" size={18} />
+            </Link>
+            <button type="button" className="nav-icon" title="Cart" onClick={openCart}>
+              <Icon name="cart" size={18} />
+              {cartCount > 0 && (
+                <span className="nav-icon-badge">{cartCount}</span>
+              )}
+            </button>
+            <button
+              type="button"
+              className="nav-icon nav-hamburger"
+              title="Menu"
+              onClick={() => setMobileOpen((o) => !o)}
+            >
+              <Icon name={mobileOpen ? "x" : "menu"} size={20} />
+            </button>
           </div>
-        </Link>
-        <div className="nav-cats">
+        </div>
+      </nav>
+
+      {/* Category strip */}
+      <div className="cat-bar">
+        <div className="cat-bar-inner">
           {cats.map((c) => (
             <Link
               key={c.id}
               href={`/catalog/${c.id}`}
-              className={"nav-link " + (pathname === `/catalog/${c.id}` ? "active" : "")}
+              className={"cat-bar-link " + (pathname.startsWith(`/catalog/${c.id}`) ? "active" : "")}
             >
               {c.label}
             </Link>
           ))}
-          <Link href="/#editorial" className="nav-link">
-            Editorial
+          <Link href="/#offers" className="cat-bar-link cat-bar-link--hot">
+            Special Offers
           </Link>
-        </div>
-        <div className="nav-right">
-          <button type="button" className="nav-icon" title="Search" onClick={openSearch}>
-            <Icon name="search" size={18} />
-          </button>
-          <button
-            type="button"
-            className="nav-icon"
-            title="Cart"
-            onClick={openCart}
-          >
-            <Icon name="cart" size={18} />
-            {cartCount > 0 && (
-              <span className="nav-icon-badge">{cartCount}</span>
-            )}
-          </button>
-          <button
-            type="button"
-            className="nav-icon nav-hamburger"
-            title="Menu"
-            onClick={() => setMobileOpen((o) => !o)}
-          >
-            <Icon name={mobileOpen ? "x" : "menu"} size={20} />
-          </button>
         </div>
       </div>
 
+      {/* Mobile menu */}
       {mobileOpen && (
         <div className="nav-mobile-menu">
           {cats.map((c) => (
             <Link
               key={c.id}
               href={`/catalog/${c.id}`}
-              className={"nav-mobile-link " + (pathname === `/catalog/${c.id}` ? "active" : "")}
+              className={"nav-mobile-link " + (pathname.startsWith(`/catalog/${c.id}`) ? "active" : "")}
               onClick={() => setMobileOpen(false)}
             >
               {c.label}
             </Link>
           ))}
-          <Link
-            href="/#editorial"
-            className="nav-mobile-link"
-            onClick={() => setMobileOpen(false)}
-          >
-            Editorial
+          <Link href="/#offers" className="nav-mobile-link" onClick={() => setMobileOpen(false)}>
+            Special Offers
           </Link>
         </div>
       )}
-    </nav>
+    </>
   );
 }

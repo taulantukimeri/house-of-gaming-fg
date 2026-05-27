@@ -3,6 +3,14 @@ import { COOKIE_NAME } from "@/lib/admin-auth";
 
 export async function POST() {
   const response = NextResponse.json({ ok: true });
-  response.cookies.delete(COOKIE_NAME);
+  // Must specify the same path used when the cookie was set,
+  // otherwise the browser won't clear it.
+  response.cookies.set(COOKIE_NAME, "", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 0, // Expire immediately
+  });
   return response;
 }

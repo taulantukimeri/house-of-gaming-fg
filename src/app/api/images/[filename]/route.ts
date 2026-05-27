@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { join, extname } from "path";
+import { join, extname, resolve } from "path";
 
 type Params = { params: Promise<{ filename: string }> };
 
@@ -18,17 +18,26 @@ function uploadsDir() {
 export async function GET(_req: Request, { params }: Params) {
   const { filename } = await params;
 
-  if (filename.includes("..") || filename.includes("/")) {
+  // Resolve and verify the path stays within the uploads directory
+  const dir = resolve(uploadsDir());
+  const target = resolve(join(dir, filename));
+
+  if (!target.startsWith(dir + (process.platform === "win32" ? "\\" : "/"))) {
+    return new Response("Bad request", { status: 400 });
+  }
+
+  const ext = extname(target).toLowerCase();
+  if (!Object.keys(MIME).includes(ext)) {
     return new Response("Bad request", { status: 400 });
   }
 
   try {
-    const file = readFileSync(join(uploadsDir(), filename));
-    const mime = MIME[extname(filename).toLowerCase()] ?? "application/octet-stream";
+    const file = readFileSync(target);
     return new Response(file, {
       headers: {
-        "Content-Type": mime,
+        "Content-Type": MIME[ext] ?? "application/octet-stream",
         "Cache-Control": "public, max-age=31536000, immutable",
+        "X-Content-Type-Options": "nosniff",
       },
     });
   } catch {

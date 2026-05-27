@@ -62,7 +62,7 @@ export function CartProvider({
       {
         id,
         title: `Added — ${product.fullName}`,
-        sub: `${qty} × €${product.price} · ${product.stockLabel.toLowerCase()}`,
+        sub: `${qty} × ${product.price.toFixed(2)} € · ${product.stockLabel.toLowerCase()}`,
       },
     ]);
     setTimeout(() => {

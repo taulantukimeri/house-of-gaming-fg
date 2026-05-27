@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ProductArt } from "@/components/product-art";
-import { EyebrowBar, StockPill } from "@/components/ui-primitives";
+import { StockPill } from "@/components/ui-primitives";
 import { ORDERS } from "@/lib/data";
 import type { Product } from "@/lib/types";
 
@@ -13,7 +13,7 @@ const TABS = [
   { id: "builds", label: "Saved builds", count: 2 },
   { id: "addresses", label: "Addresses", count: 2 },
   { id: "payment", label: "Payment methods", count: 1 },
-  { id: "warranty", label: "FG warranty", count: 3 },
+  { id: "warranty", label: "Warranty", count: 3 },
   { id: "tradein", label: "Trade-in", count: null },
   { id: "settings", label: "Settings", count: null },
 ];
@@ -39,8 +39,10 @@ export function AccountScreen({
         }}
       >
         <div>
-          <EyebrowBar>▲ MEMBER SINCE 2024 · 03 ORDERS</EyebrowBar>
-          <h1 className="t-display-lg" style={{ marginTop: 12 }}>
+          <div style={{ fontSize: 12, color: "var(--mute)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
+            Member since 2024 · 3 orders
+          </div>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: 28, fontWeight: 700, color: "var(--bone)" }}>
             Alex Park
           </h1>
           <p style={{ color: "var(--bone-dim)", marginTop: 12, fontSize: 15 }}>
@@ -57,7 +59,7 @@ export function AccountScreen({
               textTransform: "uppercase",
             }}
           >
-            FG WALLET
+            LOYALTY WALLET
           </div>
           <div
             style={{
@@ -246,7 +248,7 @@ export function AccountScreen({
                           letterSpacing: "0.14em",
                         }}
                       >
-                        ▲ {o.id}
+                        {o.id}
                       </div>
                       <div
                         style={{

@@ -82,7 +82,7 @@ export function SearchOverlay() {
                   onClick={() => navigate(p.id)}
                 >
                   <span className="search-result-name">{p.fullName}</span>
-                  <span className="search-result-price">€{p.price}</span>
+                  <span className="search-result-price">{p.price.toFixed(2)} €</span>
                 </button>
               </li>
             ))}
