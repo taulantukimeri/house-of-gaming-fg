@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "prisma generate && next dev",
-    "build": "prisma generate && prisma migrate deploy && node scripts/ensure-seed.mjs && next build && node scripts/post-build.cjs",
+    "build": "node scripts/build.cjs",
     "start": "node scripts/start.cjs",
     "hostinger:build": "npm run build",
     "lint": "next lint",
