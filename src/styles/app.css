@@ -1262,6 +1262,72 @@ body { overflow-x: hidden; }
 .footer-bottom-links { display: flex; gap: 20px; }
 
 /* ============================================================
+   Checkout layout classes
+   ============================================================ */
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 64px;
+}
+.checkout-aside {
+  position: sticky;
+  top: 96px;
+  align-self: start;
+}
+.checkout-pay-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.checkout-btn-row {
+  display: flex;
+  gap: 12px;
+}
+.checkout-btn-row .btn--primary { flex: 1; }
+
+/* ============================================================
+   Account layout classes
+   ============================================================ */
+.account-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+.account-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.account-products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.orders-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.orders-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.orders-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 140px 100px 100px;
+  gap: 16px;
+  padding: 20px;
+  align-items: center;
+  min-width: 560px;
+}
+.orders-row--highlight { background: var(--surface-1); }
+
+/* ============================================================
    1920px — full HD desktop
    ============================================================ */
 @media (min-width: 1920px) {
@@ -1335,6 +1401,14 @@ body { overflow-x: hidden; }
 }
 
 /* ============================================================
+   max-width: 640px — small tablet / large phones (nav collapse)
+   ============================================================ */
+@media (max-width: 640px) {
+  .nav-icon--hide-mobile { display: none; }
+  .nav-search-placeholder { display: none; }
+}
+
+/* ============================================================
    max-width: 768px — iPad portrait / large phones
    ============================================================ */
 @media (max-width: 768px) {
@@ -1371,6 +1445,17 @@ body { overflow-x: hidden; }
   .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; gap: 8px; }
   .footer-bottom-links { flex-direction: column; gap: 4px; }
+
+  .account-grid { grid-template-columns: 1fr; }
+  .account-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .account-nav { flex-direction: row; overflow-x: auto; scrollbar-width: none; gap: 4px; padding-bottom: 8px; }
+  .account-nav::-webkit-scrollbar { display: none; }
+  .account-nav-item { white-space: nowrap; flex-shrink: 0; }
+  .account-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .account-products-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .checkout-layout { grid-template-columns: 1fr; gap: 32px; }
+  .checkout-aside { position: static; }
 }
 
 /* ============================================================
@@ -1420,4 +1505,16 @@ body { overflow-x: hidden; }
   .footer-top { grid-template-columns: 1fr 1fr; gap: 24px; }
   .footer { padding: 48px 0 24px; margin-top: 64px; }
   .footer-trust { gap: 16px; }
+
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid.thirds { grid-template-columns: 1fr; }
+  .account-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .account-products-grid { grid-template-columns: 1fr; }
+
+  .checkout-pay-methods { grid-template-columns: 1fr; }
+  .checkout-btn-row { flex-direction: column; }
+  .checkout-btn-row .btn--primary { flex: unset; width: 100%; justify-content: center; }
+  .checkout-btn-row .btn--ghost { width: 100%; justify-content: center; }
+
+  .nav-logo-name { display: none; }
 }

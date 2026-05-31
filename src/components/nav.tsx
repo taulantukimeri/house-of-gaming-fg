@@ -39,7 +39,7 @@ export function Nav() {
             <div className="nav-logo-name">House of Gaming</div>
           </Link>
 
-          {/* Search bar */}
+          {/* Search bar — placeholder text hidden at ≤640px via CSS */}
           <button type="button" className="nav-search-wrap" onClick={openSearch} aria-label="Search products">
             <span className="nav-search-icon">
               <Icon name="search" size={17} />
@@ -53,10 +53,11 @@ export function Nav() {
 
           {/* Right icons */}
           <div className="nav-right">
-            <button type="button" className="nav-icon" title="Wishlist">
+            {/* Hidden at ≤640px — accessible via mobile menu instead */}
+            <button type="button" className="nav-icon nav-icon--hide-mobile" title="Wishlist">
               <Icon name="heart" size={18} />
             </button>
-            <Link href="/account" className="nav-icon" title="My Account">
+            <Link href="/account" className="nav-icon nav-icon--hide-mobile" title="My Account">
               <Icon name="user" size={18} />
             </Link>
             <button type="button" className="nav-icon" title="Cart" onClick={openCart}>
@@ -110,6 +111,12 @@ export function Nav() {
           ))}
           <Link href="/#offers" className="nav-mobile-link" onClick={() => setMobileOpen(false)}>
             Special Offers
+          </Link>
+          <Link href="/account" className="nav-mobile-link" onClick={() => setMobileOpen(false)}>
+            My Account
+          </Link>
+          <Link href="/account" className="nav-mobile-link" onClick={() => setMobileOpen(false)}>
+            Wishlist
           </Link>
         </div>
       )}

@@ -34,7 +34,7 @@ export function CheckoutScreen() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 64 }}>
+      <div className="checkout-layout">
         <div>
           <div className="step-rail">
             <div className="step done">
@@ -99,14 +99,7 @@ export function CheckoutScreen() {
               <h2 className="t-h1" style={{ marginBottom: 24 }}>
                 Payment
               </h2>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(3, 1fr)",
-                  gap: 8,
-                  marginBottom: 24,
-                }}
-              >
+              <div className="checkout-pay-methods">
                 {[
                   { id: "card", label: "CARD" },
                   { id: "klarna", label: "KLARNA · 4×" },
@@ -146,7 +139,7 @@ export function CheckoutScreen() {
                   </div>
                 </div>
               )}
-              <div style={{ display: "flex", gap: 12 }}>
+              <div className="checkout-btn-row">
                 <button
                   type="button"
                   className="btn btn--ghost btn--lg"
@@ -157,7 +150,6 @@ export function CheckoutScreen() {
                 <button
                   type="button"
                   className="btn btn--primary btn--lg"
-                  style={{ flex: 1 }}
                   onClick={() => router.push("/order/confirmed")}
                 >
                   Place order — {total.toFixed(2)} €
@@ -167,7 +159,7 @@ export function CheckoutScreen() {
           )}
         </div>
 
-        <aside style={{ position: "sticky", top: 96, alignSelf: "start" }}>
+        <aside className="checkout-aside">
           <div
             style={{
               border: "1px solid var(--border)",

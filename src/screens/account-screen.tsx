@@ -28,16 +28,7 @@ export function AccountScreen({
 
   return (
     <div className="page-enter container" style={{ paddingTop: 32, paddingBottom: 64 }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "end",
-          marginBottom: 40,
-          paddingBottom: 32,
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
+      <div className="account-header">
         <div>
           <div style={{ fontSize: 12, color: "var(--mute)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
             Member since 2024 · 3 orders
@@ -49,7 +40,7 @@ export function AccountScreen({
             alex@studio.io · Berlin, DE
           </p>
         </div>
-        <div style={{ textAlign: "right" }}>
+        <div>
           <div
             style={{
               fontFamily: "var(--font-mono)",
@@ -105,14 +96,7 @@ export function AccountScreen({
         <main>
           {tab === "overview" && (
             <>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(4, 1fr)",
-                  gap: 16,
-                  marginBottom: 40,
-                }}
-              >
+              <div className="account-stats-grid">
                 {[
                   { eye: "LIFETIME", title: "€2 182", sub: "03 ORDERS" },
                   { eye: "IN TRANSIT", title: "01", sub: "ORDER 0029 · MON", volt: true },
@@ -162,8 +146,8 @@ export function AccountScreen({
                   </div>
                 ))}
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-                  {suggestedProducts.map((p) => (
+              <div className="account-products-grid">
+                {suggestedProducts.map((p) => (
                   <div
                     key={p.id}
                     style={{
@@ -187,6 +171,7 @@ export function AccountScreen({
                           display: "grid",
                           placeItems: "center",
                           color: "var(--bone-dim)",
+                          flexShrink: 0,
                         }}
                       >
                         <ProductArt kind={p.art} size={40} />
@@ -218,89 +203,79 @@ export function AccountScreen({
               <h2 className="t-h1" style={{ marginBottom: 24 }}>
                 Orders
               </h2>
-              <div
-                style={{
-                  border: "1px solid var(--border)",
-                  borderRadius: 8,
-                  overflow: "hidden",
-                }}
-              >
-                {ORDERS.map((o, i) => (
-                  <div
-                    key={o.id}
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "120px 1fr 140px 100px 100px",
-                      gap: 16,
-                      padding: 20,
-                      borderBottom:
-                        i < ORDERS.length - 1 ? "1px solid var(--border)" : "none",
-                      alignItems: "center",
-                      background: i === 0 ? "var(--surface-1)" : "transparent",
-                    }}
-                  >
-                    <div>
-                      <div
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: 11,
-                          color: "var(--voltage)",
-                          letterSpacing: "0.14em",
-                        }}
-                      >
-                        {o.id}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: 11,
-                          color: "var(--mute)",
-                          marginTop: 4,
-                        }}
-                      >
-                        {o.date}
-                      </div>
-                    </div>
-                    <div style={{ display: "flex", gap: 8 }}>
-                      {o.preview.map((art) => (
-                        <div
-                          key={art}
-                          style={{
-                            width: 48,
-                            height: 48,
-                            background: "var(--surface-2)",
-                            borderRadius: 4,
-                            display: "grid",
-                            placeItems: "center",
-                            color: "var(--bone-dim)",
-                          }}
-                        >
-                          <ProductArt kind={art} size={32} />
-                        </div>
-                      ))}
-                    </div>
-                    <div style={{ fontSize: 12, color: "var(--mute)" }}>
-                      {o.items} items · {o.tracking}
-                    </div>
-                    <div>
-                      <StockPill
-                        stock={o.status === "Shipped" ? "warn" : "ok"}
-                        label={o.status.toUpperCase()}
-                      />
-                    </div>
+              <div className="orders-table-wrap">
+                <div className="orders-table-scroll">
+                  {ORDERS.map((o, i) => (
                     <div
+                      key={o.id}
+                      className={`orders-row${i === 0 ? " orders-row--highlight" : ""}`}
                       style={{
-                        textAlign: "right",
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 16,
-                        color: "var(--bone)",
-                        fontWeight: 500,
+                        borderBottom: i < ORDERS.length - 1 ? "1px solid var(--border)" : "none",
                       }}
                     >
-                      €{o.total}
+                      <div>
+                        <div
+                          style={{
+                            fontFamily: "var(--font-mono)",
+                            fontSize: 11,
+                            color: "var(--voltage)",
+                            letterSpacing: "0.14em",
+                          }}
+                        >
+                          {o.id}
+                        </div>
+                        <div
+                          style={{
+                            fontFamily: "var(--font-mono)",
+                            fontSize: 11,
+                            color: "var(--mute)",
+                            marginTop: 4,
+                          }}
+                        >
+                          {o.date}
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", gap: 8 }}>
+                        {o.preview.map((art) => (
+                          <div
+                            key={art}
+                            style={{
+                              width: 48,
+                              height: 48,
+                              background: "var(--surface-2)",
+                              borderRadius: 4,
+                              display: "grid",
+                              placeItems: "center",
+                              color: "var(--bone-dim)",
+                            }}
+                          >
+                            <ProductArt kind={art} size={32} />
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{ fontSize: 12, color: "var(--mute)" }}>
+                        {o.items} items · {o.tracking}
+                      </div>
+                      <div>
+                        <StockPill
+                          stock={o.status === "Shipped" ? "warn" : "ok"}
+                          label={o.status.toUpperCase()}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          textAlign: "right",
+                          fontFamily: "var(--font-mono)",
+                          fontSize: 16,
+                          color: "var(--bone)",
+                          fontWeight: 500,
+                        }}
+                      >
+                        €{o.total}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           )}
