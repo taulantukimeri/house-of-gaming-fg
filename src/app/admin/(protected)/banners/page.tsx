@@ -112,7 +112,7 @@ export default async function BannersPage() {
 
         {slides.length === 0 && (
           <div style={{ padding: 48, textAlign: "center", color: "var(--mute)", fontFamily: "var(--font-mono)", fontSize: 12 }}>
-            No slides yet — click "Add slide" to create one.
+            No slides yet — click &quot;Add slide&quot; to create one.
           </div>
         )}
       </div>
